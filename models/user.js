@@ -7,7 +7,7 @@ const userSchema = new Schema({
         required: true
     },
     email: {
-        type: Email,
+        type: String,
         required: true
     },
     birthday: {
@@ -22,12 +22,9 @@ const userSchema = new Schema({
         type: String
     },
     //refs
-    post: {
-        type: Schema.Types.ObjectId, ref: "Post"
-    },
-    comment: {
-        type: Schema.Types.ObjectId, ref: "Comment"
-    },
+    posts: [{type: Schema.Types.ObjectId, ref: "Post"}],
+    comments: [{type: Schema.Types.ObjectId, ref: "Comment"}],
+    //make the below plural as needed
     likeGiven: {
         type: Schema.Types.ObjectId, ref: "LikeGiven"
     },

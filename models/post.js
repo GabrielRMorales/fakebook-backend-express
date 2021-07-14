@@ -15,9 +15,13 @@ const postSchema = new Schema({
    timestamp: {
        type: Date,
        default: Date.now()
-   }
+   },
+   user: {
+       type: Schema.Types.ObjectId, ref: "User"
+   },
+   comments: [{type: Schema.Types.ObjectId, ref: "Comment"}]
 });
-
+//this should have a remove hook to get rid of associated comments, right?
 const Post = mongoose.model("Post", postSchema);
 
 module.exports = Post;

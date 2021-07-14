@@ -10,6 +10,14 @@ const commentSchema = new Schema({
     timestamp: {
         type: Date,
         default: Date.now()
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
+    post: {
+        type: Schema.Types.ObjectId,
+        ref: "Post"
     }
 });
 
