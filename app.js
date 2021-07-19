@@ -32,7 +32,7 @@ app.use(express.urlencoded());
     likes given (post)
     likes received (get)
     friend requests sent (post, delete)
-    friend requests received (get, post(accept + new friend),delete)
+    friend requests received (get, post(accept + new friend),delete)-should involved adding users to friends in User object
     friendship (mutual) (get, delete, possibly put-if blocked)
     notification??
     messages??

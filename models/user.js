@@ -30,8 +30,11 @@ const userSchema = new Schema({
     },
     likeReceived: {
         type: Schema.Types.ObjectId, ref: "LikeReceived"
-    }
-
+    },
+    //should also keep track of friendRequests and friendship objects??
+    //friends
+    friends: [{type: Schema.Types.ObjectId, ref: "User"}]
+    
 
 });
 

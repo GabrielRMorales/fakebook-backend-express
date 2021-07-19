@@ -14,7 +14,8 @@ exports.new_post = [
      }
      let newPost = new Post({
          title,
-         text
+         text,
+         user: req.user._id
      });
      newPost.save().then(post=>res.status(200).json({post}))
      .catch(err=>{
