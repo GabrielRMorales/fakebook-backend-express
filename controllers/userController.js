@@ -8,6 +8,7 @@ const jwt = require("jsonwebtoken");
 //import passport modules
 
 
+
 exports.register_post = [
     //check fields
     check("name").trim().escape().isLength({max: 30}),
@@ -35,6 +36,10 @@ exports.register_post = [
                     bcrypt.hash(password,10, (err, hashedPass)=>{
                         if (err){next(err);}
                         let newUser = new User({ name, email, password: hashedPass, birthday });
+                        if (newUser.password !== hashedPass) {
+                            let passwordError = new Error("Please try changing your password later");
+                            next(passwordError);
+                        }
                         newUser.save().then(data=>res.status(200).json(data))
                         .catch(err=>{
                             errors = errors.array();
@@ -73,3 +78,29 @@ exports.logout_get = (req,res,next)=>{
     res.send("Logged out.");
 }
 
+exports.user_get = (req,res,next)=>{
+    //populate with various refs (some friends, some posts, and a comment of each post)
+    //by "some": only 8-10 limit.
+    
+    //For posts, more will be loaded as the user scrolls down-should go in post controller
+
+    //all comments of a post will be loaded if the individual post is clicked on-should go in comment controller
+    User.findById(req.params.id).exec((err, userData)=>{
+        if(err){next(err);}
+
+        return res.json(userData);
+    });
+}
+
+exports.users_get = async (req,res,next)=>{
+    let users;
+    try {
+        users = await User.find({_id: {$ne: req.user.id}});
+        return res.json(users);
+    } catch(e){
+        next(e);
+    }
+   
+}
+
+//controllers for editing user data (ie edit password-make sure to bcrypt hash it)

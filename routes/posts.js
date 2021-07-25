@@ -3,6 +3,8 @@ const router = express.Router;
 //import post controllers
 const postController = require("../controllers/postController");
 
+//there should be a way to get more posts for a specific user
+router.get("/posts/user/:id", postController.get_user_posts);
 
 router.post("/post", postController.new_post);
 

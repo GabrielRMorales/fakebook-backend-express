@@ -1,7 +1,22 @@
 const Post = require("../models/post");
 const {check, validationResult } =require("express-validator");
 const jwt = require("jsonwebtoken");
-const SECRET_CODE;
+const SECRET_CODE = process.env.SECRET_CODE;
+
+exports.get_user_posts = (req,res,next)=>{
+    //for a user's page, getting more posts as a user scrolls down their page 
+    //req can include the last post visible on the page. Continue retrieving posts from this point on
+    Post.find({user: req.params.id}).limit(10)
+    .populate({path: "comments",
+    options: {
+        limit: 2,
+        sort: {date: -1}
+    }})
+    .exec((err,userPosts)=>{
+        if(err){next(err)}
+        return res.json(userPosts);
+    });
+}
 
 exports.new_post = [
     check("title").trim().escape().isLength({min: 5}),

@@ -2,7 +2,16 @@ const Comment = require("../models/comment");
 const User = require("../models/user");
 const {check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
-const SECRET_CODE = "";
+const SECRET_CODE = process.env.SECRET_CODe;
+
+exports.get_post_comments = (req,res,next)=>{
+    //get all comments of a post
+    Comment.find({post: req.params.id}).exec((err, comments)=>{
+        if (err){ next(err);}
+        return res.json(comments);
+    })
+}
+
 exports.post_comment = [
     check("text").trim().escape(),
     (req,res,next)=>{

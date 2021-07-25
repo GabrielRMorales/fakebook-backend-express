@@ -1,13 +1,14 @@
 const express=require("express");
 const app=express();
 const cors = require("cors");
+require("dotenv").config();
 //import multiple page routes
 const routes;
 
 app.use(express.json());
 app.use(express.urlencoded());
 /*
-    SPA-yes, use this
+    SPA - use this
 
     use local mongoose/mongodb
 

@@ -21,6 +21,9 @@ const postSchema = new Schema({
    },
    comments: [{type: Schema.Types.ObjectId, ref: "Comment"}]
 });
+
+//use a virtual to get comments by newest?
+
 //this should have a remove hook to get rid of associated comments, right?
 const Post = mongoose.model("Post", postSchema);
 

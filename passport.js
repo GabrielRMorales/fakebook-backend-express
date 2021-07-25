@@ -5,6 +5,7 @@ const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const bcrypt = require("bcrypt");
 const User = require("./models/user");
+const secretOrKey = process.env.SECRET_KEY;
 
 passport.use(new LocalStrategy({
     usernameField: "email",
@@ -28,7 +29,7 @@ passport.use(new LocalStrategy({
 
 passport.use(new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey: "***"
+    secretOrKey: secretOrKey
 },
 (jwtPayload, cb)=>{
     return User.findOneById(jwtPayload.id).then(user=>{
