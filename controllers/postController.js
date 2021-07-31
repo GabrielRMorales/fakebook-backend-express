@@ -19,7 +19,6 @@ exports.get_user_posts = (req,res,next)=>{
 }
 
 exports.new_post = [
-    check("title").trim().escape().isLength({min: 5}),
     check("text").trim().escape().isLength({min: 5}),
     (req,res,next)=>{
         let {title,text} = req.body;
@@ -42,7 +41,6 @@ exports.new_post = [
 }]
 //obviously, the user should not even be shown edit post buttons for those that are not theirs, but this is just a precaution
 exports.edit_post = [
-    check("title"),
     check("text"),
     async (req,res,next)=>{
         let {title,text} = req.body;

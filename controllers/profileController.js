@@ -1,4 +1,3 @@
-const express = require("express");
 const User = require("../models/user");
 
 exports.home_get = (req,res,next)=>{

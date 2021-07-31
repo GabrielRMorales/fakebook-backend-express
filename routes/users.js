@@ -12,8 +12,8 @@ router.post("/user/login", userController.login_post);
 router.get("/user/:id",userController.user_get);
 
 //get all users (except for current user)-to see who can be friended
-router.get("/users", userControllers.users_get);
+router.get("/users", userController.users_get);
 
 //routes for editing user settings (ie edit password)
 
-modules.exports = router;
+module.exports = router;

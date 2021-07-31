@@ -1,5 +1,5 @@
 const express = require("express");
-const router = express.Router;
+const router = express.Router();
 const commentController = require("../controllers/commentController");
 
 //get all comments of a specific post

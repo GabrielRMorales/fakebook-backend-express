@@ -5,6 +5,7 @@ const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const bcrypt = require("bcrypt");
 const User = require("./models/user");
+require("dotenv").config();
 const secretOrKey = process.env.SECRET_KEY;
 
 passport.use(new LocalStrategy({
@@ -13,19 +14,19 @@ passport.use(new LocalStrategy({
 }, (email, password, cb)=>{
     User.findOne({email}).then(user=>{
         if (!user){
-            return cb(null, false, {message: "Incorrect email or password"});
+            return cb(null, false, {message: "Incorrect email or password."});
         }
         bcrypt.compare(password, user.password, (err, isMatch)=>{
             if(err) throw err;
             if (isMatch){
                 return cb(null, user);
             } else {
-                return cb(null, false, {message: "Incorrect password"});
+                return cb(null, false, {message: "Incorrect password."});
             }
         })
     }).catch(err=>cb(err));
 }
-))
+));
 
 passport.use(new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
@@ -39,4 +40,6 @@ passport.use(new JWTStrategy({
         return cb(err);
     });
     }
-))
+));
+
+module.exports = passport;

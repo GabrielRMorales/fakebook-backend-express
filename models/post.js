@@ -3,11 +3,11 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
-   title: {
+ /*  title: {
        type: String,
        required: true,
        maxLength: 25
-   },
+   },*/
    text: {
        type: String,
        required: true
@@ -23,6 +23,7 @@ const postSchema = new Schema({
 });
 
 //use a virtual to get comments by newest?
+//also does this even need a title
 
 //this should have a remove hook to get rid of associated comments, right?
 const Post = mongoose.model("Post", postSchema);

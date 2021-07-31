@@ -1,13 +1,10 @@
-const bcrypt = require("bcrypt");
 const {check, validationResult} = require("express-validator");
 const User = require("../models/user");
-const passport = require("../passport");
+//const passport = require("../passport");
 const jwt = require("jsonwebtoken");
 
 //import models as needed
 //import passport modules
-
-
 
 exports.register_post = [
     //check fields
