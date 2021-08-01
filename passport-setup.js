@@ -4,7 +4,7 @@ const passportJWT = require("passport-jwt");
 const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const bcrypt = require("bcrypt");
-const User = require("./models/user");
+const User = require("./models").User;
 require("dotenv").config();
 const secretOrKey = process.env.SECRET_KEY;
 
@@ -13,6 +13,7 @@ passport.use(new LocalStrategy({
     passwordField: "password"
 }, (email, password, cb)=>{
     User.findOne({email}).then(user=>{
+        console.log(user);
         if (!user){
             return cb(null, false, {message: "Incorrect email or password."});
         }

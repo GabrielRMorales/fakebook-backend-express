@@ -1,5 +1,5 @@
-const Comment = require("../models/comment");
-const User = require("../models/user");
+const Comment = require("../models/").Comment;
+const User = require("../models/").User;
 const {check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const SECRET_CODE = process.env.SECRET_CODe;

@@ -1,5 +1,5 @@
 const {check, validationResult} = require("express-validator");
-const User = require("../models/user");
+const User = require("../models/").User;
 const passport = require("../passport-setup");
 const jwt = require("jsonwebtoken");
 
@@ -54,8 +54,8 @@ exports.login_post = (req,res,next)=>{
     passport.authenticate("local",{session: false},(err,user,info)=>{
        if (err || !user){
            return res.status(400).json({
-               message: info.message,
-               user: user
+               message: info.message || "There was a problem logging in.",
+               user
            });
        }
        req.login(user, {session: false}, (err)=>{

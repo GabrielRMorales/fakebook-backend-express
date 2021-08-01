@@ -1,4 +1,4 @@
-const Post = require("../models/post");
+const Post = require("../models").Post;
 const {check, validationResult } =require("express-validator");
 const jwt = require("jsonwebtoken");
 const SECRET_CODE = process.env.SECRET_CODE;
