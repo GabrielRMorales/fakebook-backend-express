@@ -1,14 +1,14 @@
 const {check, validationResult} = require("express-validator");
 const User = require("../models/user");
-//const passport = require("../passport");
+const passport = require("../passport-setup");
 const jwt = require("jsonwebtoken");
 
 //import models as needed
-//import passport modules
 
 exports.register_post = [
     //check fields
-    check("name").trim().escape().isLength({max: 30}),
+    check("firstName").trim().escape().isLength({max: 17}),
+    check("lastName").trim().escape().isLength({max: 17}),
     check("email").trim().escape().isEmail().withMessage("This field must be a valid email."),
     check("password").trim().escape(),
     check("password2").trim().escape().custom((value, {req})=>{

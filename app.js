@@ -6,6 +6,7 @@ const passport = require("./passport-setup");
 require("dotenv").config();
 //import multiple page routes
 const routes = require("./routes/rootRouters");
+const authRoutes = require("./routes/auth");
 const PORT = process.env.PORT || 3000;
 
 /*const checkAuthentication = (req,res,next)=>{
@@ -22,6 +23,25 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+app.use("/auth/user", authRoutes);
+app.use("/", passport.authenticate("jwt", {session: false}), routes);
+
+//error handlers
+app.use((req,res,next)=>{
+    let err = new Error;
+    err.status = 404;
+    next(err);
+});
+
+app.use((err,req,res,next)=>{
+    return res.send({
+        message: err.message || "Internal Server Error",
+        status: err.status || 500
+    });
+})
+
+app.listen(PORT, ()=>console.log(`App is running on port ${PORT}`));
 /*
     SPA - use this
 
@@ -57,20 +77,3 @@ app.use(express.urlencoded({extended: true}));
     if logged in, it's newsfeed + user profile info (ie friend requests)
     every route then should have an authentication middleware to check
 */
-app.use("/", passport.authenticate("jwt", {session: false}), routes);
-
-//error handlers
-app.use((req,res,next)=>{
-    let err = new Error;
-    err.status = 404;
-    next(err);
-});
-
-app.use((err,req,res,next)=>{
-    return res.send({
-        message: err.message || "Internal Server Error",
-        status: err.status || 500
-    });
-})
-
-app.listen(PORT, ()=>console.log(`App is running on port ${PORT}`));
