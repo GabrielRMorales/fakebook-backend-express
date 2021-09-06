@@ -1,8 +1,9 @@
 const {check, validationResult} = require("express-validator");
 const User = require("../models/").User;
+const bcrypt = require("bcrypt");
 const passport = require("../passport-setup");
 const jwt = require("jsonwebtoken");
-
+require("dotenv").config();
 //import models as needed
 
 exports.register_post = [
@@ -12,7 +13,7 @@ exports.register_post = [
     check("email").trim().escape().isEmail().withMessage("This field must be a valid email."),
     check("password").trim().escape(),
     check("password2").trim().escape().custom((value, {req})=>{
-        if (req.body.password!==val){
+        if (req.body.password!==value){
             throw new Error("Passwords don't match!");
         } else {
             return true;
@@ -20,7 +21,7 @@ exports.register_post = [
     }),
     check("birthday").trim().escape(),
     (req,res,next)=>{
-        let {name, email, password, birthday} = req.body;
+        let {firstName, lastName, email, password, birthday} = req.body;
         let errors = validationResult(req);
         if (!errors.isEmpty()){
             return res.status(400).send({errors: errors.array()});
@@ -32,7 +33,12 @@ exports.register_post = [
                 } else {
                     bcrypt.hash(password,10, (err, hashedPass)=>{
                         if (err){next(err);}
-                        let newUser = new User({ name, email, password: hashedPass, birthday });
+                        let newUser =new User({
+                            firstName,
+                            lastName, 
+                            email, 
+                            password: hashedPass, 
+                            birthday });
                         if (newUser.password !== hashedPass) {
                             let passwordError = new Error("Please try changing your password later");
                             next(passwordError);
@@ -62,8 +68,9 @@ exports.login_post = (req,res,next)=>{
             if (err){
                 res.send(err);
             }
-
-           const token = jwt.sign({user},SECRET_CODE);
+            //potentially the user here can simply be user, not {user}. If so
+            //then you can change the passport strategy to select jwtPayload._id
+           const token = jwt.sign({user},process.env.SECRET_CODE);
            return res.json({user, token});
        });       
 

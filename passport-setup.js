@@ -6,7 +6,7 @@ const ExtractJWT = passportJWT.ExtractJwt;
 const bcrypt = require("bcrypt");
 const User = require("./models").User;
 require("dotenv").config();
-const secretOrKey = process.env.SECRET_KEY;
+const SECRET = process.env.SECRET_CODE;
 
 passport.use(new LocalStrategy({
     usernameField: "email",
@@ -31,10 +31,10 @@ passport.use(new LocalStrategy({
 
 passport.use(new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey: secretOrKey
+    secretOrKey: SECRET
 },
 (jwtPayload, cb)=>{
-    return User.findOneById(jwtPayload.id).then(user=>{
+    return User.findById(jwtPayload.user._id).then(user=>{
         return cb(null, user);
     })
     .catch(err=>{
